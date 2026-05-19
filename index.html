@@ -1,0 +1,838 @@
+<!--
+  ARQUIVO HTML DO DASHBOARD MÉDICO
+  Função: cria a estrutura visual da página.
+  O CSS cuida da aparência e o JavaScript atualiza os dados automaticamente.
+-->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Dashboard Médico | AmorSaúde</title>
+
+  <link rel="stylesheet" href="dados-medico.css" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
+  >
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+  >
+  <link rel="stylesheet" href="assets/lag-ia-mascote.css" />
+</head>
+
+<body>
+
+
+  <!-- CABEÇALHO: logo, menu de navegação, botão do painel, sino e usuário. -->
+  <header class="topbar">
+    <a href="#" class="logo-box">
+      <img src="assets/logo-lag.png" alt="Logo AmorSaúde" class="logo-img">
+    </a>
+
+    <nav class="nav-menu">
+      <a href="#">Início</a>
+      <a href="#">Benefícios</a>
+      <a href="#">Treinamentos</a>
+      <a href="#">Cursos</a>
+      <a href="#">Médicos</a>
+      <a href="#">Notícias</a>
+      <a href="#">Contato</a>
+    </nav>
+    <div class="header-actions">
+
+      <!-- NOTIFICAÇÕES -->
+      <div class="notify-wrap">
+        <button class="icon-button bell" id="notificationToggle" type="button" aria-label="Abrir notificações">
+          <i class="fa-regular fa-bell"></i>
+          <span id="notificationCount">3</span>
+        </button>
+
+        <div class="notification-panel" id="notificationPanel" aria-hidden="true">
+          <div class="notification-head">
+            <div>
+              <strong>Notificações</strong>
+              <small>Acompanhe avisos do sistema</small>
+            </div>
+
+            <button type="button" id="markAllRead">Marcar lidas</button>
+          </div>
+
+          <div class="notification-tabs">
+            <button class="active" type="button" data-filter="todas">Todas</button>
+            <button type="button" data-filter="nao-lidas">Não lidas</button>
+          </div>
+
+          <div class="notification-list" id="notificationList"></div>
+        </div>
+      </div>
+
+      <!-- PERFIL DO COLABORADOR PROFISSIONAL -->
+      <div class="profile-wrap">
+        <button class="user-button profile-toggle-btn" id="profileToggle" type="button" aria-label="Abrir perfil do colaborador">
+          <img id="topProfilePhoto" class="top-profile-photo" src="" alt="Foto do colaborador">
+          <span class="top-profile-initials" id="topProfileInitials">CL</span>
+
+          <div class="top-profile-text">
+            <strong id="topProfileName">Colaborador</strong>
+            <small id="topProfileRole">Administrativo</small>
+          </div>
+
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+
+        <div class="profile-card professional-profile" id="profileCard" aria-hidden="true">
+          <div class="profile-cover" id="profileCoverPreview">
+            <img id="profileCoverImg" class="profile-cover-img" src="" alt="Capa do perfil">
+
+            <button class="change-cover-btn" id="changeCoverBtn" type="button">
+              <i class="fa-solid fa-camera"></i>
+              Alterar capa
+            </button>
+
+            <input type="file" id="profileCoverInput" accept="image/*">
+          </div>
+
+          <div class="profile-main">
+            <div class="profile-photo-area">
+              <div class="profile-avatar big-avatar" id="profilePhotoClickArea" role="button" tabindex="0" aria-label="Alterar foto do perfil">
+                <img id="profileAvatarImg" src="" alt="Foto do colaborador">
+                <span id="profileAvatarInitials">CL</span>
+              </div>
+
+              <button class="change-photo-btn" id="changePhotoBtn" type="button" aria-label="Alterar foto">
+                <i class="fa-solid fa-camera"></i>
+              </button>
+
+              <input type="file" id="profilePhotoInput" accept="image/*">
+            </div>
+
+            <div class="profile-main-info">
+              <h3 id="profileDisplayName">Colaborador</h3>
+              <p id="profileDisplayRole">Administrativo</p>
+
+              <span class="profile-status">
+                <i></i>
+                Online agora
+              </span>
+            </div>
+          </div>
+
+          <div class="profile-stats">
+            <div>
+              <strong>24</strong>
+              <span>Médicos</span>
+            </div>
+
+            <div>
+              <strong>1.286</strong>
+              <span>Consultas</span>
+            </div>
+
+            <div>
+              <strong>87%</strong>
+              <span>Ocupação</span>
+            </div>
+          </div>
+
+          <form class="profile-edit-form" id="profileEditForm">
+            <label>
+              <span>Nome do colaborador</span>
+              <input type="text" id="profileNameInput" placeholder="Ex: Matheus Landucci">
+            </label>
+
+            <label>
+              <span>Cargo</span>
+              <input type="text" id="profileRoleInput" placeholder="Ex: Administrativo">
+            </label>
+
+            <label>
+              <span>Unidade</span>
+              <input type="text" id="profileUnitInput" placeholder="Ex: AmorSaúde Cerquilho">
+            </label>
+
+            <label>
+              <span>E-mail</span>
+              <input type="email" id="profileEmailInput" placeholder="Ex: colaborador@email.com">
+            </label>
+
+            <div class="profile-form-actions">
+              <button type="submit" class="save-profile-btn">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Salvar perfil
+              </button>
+
+              <button type="button" class="remove-photo-btn" id="removeProfilePhoto">
+                <i class="fa-solid fa-image-slash"></i>
+                Remover imagens
+              </button>
+            </div>
+          </form>
+
+          <div class="profile-footer-actions">
+            <button type="button">
+              <i class="fa-regular fa-id-card"></i>
+              Meu acesso
+            </button>
+
+            <button type="button">
+              <i class="fa-solid fa-shield-halved"></i>
+              Segurança
+            </button>
+
+            <button type="button" class="logout-btn">
+              <i class="fa-solid fa-right-from-bracket"></i>
+              Sair
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTEÚDO PRINCIPAL: todos os cards, filtros, gráficos e painel do dashboard ficam aqui. -->
+  <main class="dashboard" id="dashboardTop">
+
+    <!-- TÍTULO E FILTROS: área superior com nome do sistema e filtros por mês, médico e especialidade. -->
+    <section class="dashboard-heading fade-item">
+      <div class="title-row">
+        <div class="title-icon">
+          <i class="fa-solid fa-chart-simple"></i>
+        </div>
+
+        <div>
+          <h1>LagController</h1>
+          <p>Visualize os indicadores por mês, médico específico e especialidade.</p>
+        </div>
+      </div>
+
+      <div class="filters">
+        <article class="filter-card active-filter">
+          <i class="fa-regular fa-calendar-days"></i>
+          <div>
+            <span>Período</span>
+            <select id="periodoSelect" aria-label="Selecionar mês">
+              <option value="Maio de 2026" selected>Maio 2026</option>
+              <option value="Abril de 2026">Abril 2026</option>
+              <option value="Março de 2026">Março 2026</option>
+              <option value="Fevereiro de 2026">Fevereiro 2026</option>
+              <option value="Janeiro de 2026">Janeiro 2026</option>
+            </select>
+          </div>
+        </article>
+
+        <article class="filter-card">
+          <i class="fa-solid fa-user-doctor"></i>
+          <div>
+            <span>Médico específico</span>
+            <select id="doctorSelect" aria-label="Selecionar médico">
+              <option value="todos" selected>Todos os médicos</option>
+            </select>
+          </div>
+        </article>
+
+        <article class="filter-card">
+          <i class="fa-solid fa-notes-medical"></i>
+          <div>
+            <span>Especialidade</span>
+            <select id="specialtySelect" aria-label="Selecionar especialidade">
+              <option value="todas" selected>Todas</option>
+              <option value="Clínico Geral">Clínico Geral</option>
+              <option value="Neurologista">Fisioterapia</option>
+              <option value="Ginecologia">Ginecologia</option>
+              <option value="Cardiologia">Cardiologia</option>
+              <option value="Ortopedia">Ortopedia</option>
+              <option value="Psicologia">Psicologia</option>
+              <option value="Nutrição">Nutrição</option>
+              <option value="Fisioterapia">Fisioterapia</option>
+              <option value="Outras">Outras</option>
+            </select>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- CARDS DE INDICADORES: mostra médicos ativos, consultas, arrecadação, faltas e média por dia. -->
+    <section class="kpi-grid fade-item">
+      <article class="kpi-card">
+        <div class="kpi-icon">
+          <i class="fa-solid fa-users"></i>
+        </div>
+
+        <div>
+          <span>Médicos ativos</span>
+          <strong data-value="24">0</strong>
+          <small class="positive">▲ 8% em relação a Abril</small>
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-icon">
+          <i class="fa-solid fa-stethoscope"></i>
+        </div>
+
+        <div>
+          <span>Consultas realizadas</span>
+          <strong data-value="1286">0</strong>
+          <small class="positive">▲ 12% em relação a Abril</small>
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-icon money">
+          <i class="fa-solid fa-dollar-sign"></i>
+        </div>
+
+        <div>
+          <span>Valor arrecadado</span>
+          <strong data-value="186450" data-money="true">R$ 0</strong>
+          <small class="positive">▲ 15% em relação a Abril</small>
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-icon danger">
+          <i class="fa-regular fa-calendar-xmark"></i>
+        </div>
+
+        <div>
+          <span>Faltas</span>
+          <strong data-value="93">0</strong>
+          <small class="negative">▼ 6% em relação a Abril</small>
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-icon">
+          <i class="fa-solid fa-arrow-trend-up"></i>
+        </div>
+
+        <div>
+          <span>Média por dia</span>
+          <strong data-value="59">0</strong>
+          <small class="positive">▲ 10% em relação a Abril</small>
+        </div>
+      </article>
+    </section>
+
+    <!-- GRÁFICOS E RELATÓRIOS: ranking, linha semanal, barras de arrecadação, presença/falta e especialidades. -->
+    <section class="charts-grid">
+
+      <article class="panel ranking fade-item">
+        <h3>
+          <i class="fa-solid fa-trophy"></i>
+          Ranking de médicos por consultas
+        </h3>
+
+        <div class="ranking-head">
+          <span>#</span>
+          <span>Médico</span>
+          <span>Consultas</span>
+        </div>
+
+        <div class="ranking-list">
+          <div class="rank-item">
+            <span>1</span>
+            <p>Dr. Pedro Lucas</p>
+            <div class="rank-bar"><b data-width="100"></b></div>
+            <strong>219</strong>
+          </div>
+
+          <div class="rank-item">
+            <span>2</span>
+            <p>Dra. Larissa junqueira Akl</p>
+            <div class="rank-bar"><b data-width="86"></b></div>
+            <strong>188</strong>
+          </div>
+
+          <div class="rank-item">
+            <span>3</span>
+            <p>Dr. Lucas De Castro Bortolanza e Souze</p>
+            <div class="rank-bar"><b data-width="77"></b></div>
+            <strong>168</strong>
+          </div>
+
+          <div class="rank-item">
+            <span>4</span>
+            <p>Dra. Ingrid Lycarião Guimarães</p>
+            <div class="rank-bar"><b data-width="65"></b></div>
+            <strong>142</strong>
+          </div>
+
+          <div class="rank-item">
+            <span>5</span>
+            <p>Dr. Rodrigo Fernandes Couri Pedrosa</p>
+            <div class="rank-bar"><b data-width="60"></b></div>
+            <strong>132</strong>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel line-panel fade-item">
+        <h3>
+          <i class="fa-solid fa-chart-line"></i>
+          Atendimentos semanais
+        </h3>
+
+        <div class="line-chart">
+          <div class="chart-lines">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <svg viewBox="0 0 600 260" preserveAspectRatio="none" class="main-line-svg">
+            <defs>
+              <linearGradient id="lineGradient" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#58ADBE" stop-opacity="0.28"/>
+                <stop offset="100%" stop-color="#58ADBE" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+
+            <path class="area-path" d="M35 175 L165 145 L300 80 L435 130 L565 155 L565 225 L35 225 Z"></path>
+            <polyline class="line-path" points="35,175 165,145 300,80 435,130 565,155"></polyline>
+
+            <g class="dots">
+              <circle cx="35" cy="175" r="8"></circle>
+              <circle cx="165" cy="145" r="8"></circle>
+              <circle cx="300" cy="80" r="8"></circle>
+              <circle cx="435" cy="130" r="8"></circle>
+              <circle cx="565" cy="155" r="8"></circle>
+            </g>
+          </svg>
+
+          <div class="week-labels">
+            <span>Semana 1<small>29 Abr - 05 Mai</small></span>
+            <span>Semana 2<small>06 - 12 Mai</small></span>
+            <span>Semana 3<small>13 - 19 Mai</small></span>
+            <span>Semana 4<small>20 - 26 Mai</small></span>
+            <span>Semana 5<small>27 Mai - 02 Jun</small></span>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel bar-panel fade-item">
+        <h3>
+          <i class="fa-solid fa-circle-dollar-to-slot"></i>
+          Arrecadação por mês
+        </h3>
+
+        <div class="bar-chart" id="revenueChart">
+          <div class="bar-col">
+            <strong>R$ 128k</strong>
+            <b data-height="50"></b>
+            <span>Dez</span>
+          </div>
+
+          <div class="bar-col">
+            <strong>R$ 138k</strong>
+            <b data-height="56"></b>
+            <span>Jan</span>
+          </div>
+
+          <div class="bar-col">
+            <strong>R$ 146k</strong>
+            <b data-height="62"></b>
+            <span>Fev</span>
+          </div>
+
+          <div class="bar-col">
+            <strong>R$ 152k</strong>
+            <b data-height="67"></b>
+            <span>Mar</span>
+          </div>
+
+          <div class="bar-col">
+            <strong>R$ 172k</strong>
+            <b data-height="78"></b>
+            <span>Abr</span>
+          </div>
+
+          <div class="bar-col active">
+            <strong>R$ 186k</strong>
+            <b data-height="90"></b>
+            <span>Mai</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel donut-panel fade-item">
+        <h3>
+          <i class="fa-solid fa-user-check"></i>
+          Faltas versus Presenças
+        </h3>
+
+        <div class="donut-layout">
+          <div class="donut-chart">
+            <div>
+              <span>Total</span>
+              <strong>1.286</strong>
+            </div>
+          </div>
+
+          <div class="legend">
+            <p><i class="dot teal"></i> Presenças <strong>1.193</strong></p>
+            <p><i class="dot red"></i> Faltas <strong>93</strong></p>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel pie-panel fade-item">
+        <h3>
+          <i class="fa-solid fa-notes-medical"></i>
+          Distribuição por especialidade
+        </h3>
+
+        <div class="pie-layout">
+          <div class="pie-chart"></div>
+
+          <div class="pie-legend">
+            <p><i style="background:#079aa5"></i> Clínica Geral <strong>42%</strong></p>
+            <p><i style="background:#69cdd8"></i> Ginecologia <strong>20%</strong></p>
+            <p><i style="background:#b9e9ef"></i> Cardiologia <strong>15%</strong></p>
+            <p><i style="background:#d9f0f4"></i> Ortopedia <strong>13%</strong></p>
+            <p><i style="background:#aebfc8"></i> Outras <strong>10%</strong></p>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel insights-panel fade-item">
+        <h3>
+          <i class="fa-solid fa-star"></i>
+          Resumo e insights do período
+        </h3>
+
+        <div class="insight-metrics">
+          <div class="insight-item">
+            <div class="kpi-icon small">
+              <i class="fa-solid fa-users"></i>
+            </div>
+
+            <div>
+              <span>Taxa de ocupação</span>
+              <strong>87%</strong>
+              <small class="positive">▲ 5% em relação a Abril</small>
+            </div>
+          </div>
+
+          <div class="insight-item">
+            <div class="kpi-icon small">
+              <i class="fa-solid fa-money-bill-wave"></i>
+            </div>
+
+            <div>
+              <span>Ticket médio</span>
+              <strong>R$ 145,02</strong>
+              <small class="positive">▲ 7% em relação a Abril</small>
+            </div>
+          </div>
+
+          <div class="insight-item">
+            <div class="kpi-icon small danger">
+              <i class="fa-regular fa-calendar-xmark"></i>
+            </div>
+
+            <div>
+              <span>Índice de faltas</span>
+              <strong>7,2%</strong>
+              <small class="negative">▼ 1,1% em relação a Abril</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="insight-box">
+          <i class="fa-regular fa-lightbulb"></i>
+          <p>
+            Excelente desempenho! Houve aumento nas consultas realizadas e no valor arrecadado.
+            Mantenha o foco na redução das faltas para melhorar ainda mais os resultados.
+          </p>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- CHAMADA PARA CADASTRO: botão que abre o painel para adicionar médico. -->
+    <section class="add-doctor-cta fade-item">
+      <div>
+        <span class="eyebrow">Cadastro rápido</span>
+        <h2>Precisa incluir novos dados?</h2>
+        <p>Clique no botão abaixo para abrir o painel de cadastro sem sair do dashboard.</p>
+      </div>
+
+      <button class="add-doctor-bottom-btn" id="openDoctorPanel" type="button">
+        <i class="fa-solid fa-user-plus"></i>
+        Adicionar médico
+      </button>
+    </section>
+
+  </main>
+
+  <!-- FUNDO ESCURO DO MODAL: aparece atrás do formulário quando o painel abre. -->
+  <div class="doctor-panel-overlay" id="doctorPanelOverlay"></div>
+
+  <!-- PAINEL DE CADASTRO: formulário para cadastrar, listar e apagar médicos salvos. -->
+  <aside class="doctor-side-panel" id="doctorSidePanel" aria-hidden="true">
+      <div class="doctor-side-header">
+        <div>
+          <span class="eyebrow">Cadastro rápido</span>
+          <h2>Adicionar dados médicos</h2>
+          <p>Preencha os dados do médico para atualizar o dashboard automaticamente.</p>
+        </div>
+
+        <button class="close-doctor-panel" id="closeDoctorPanel" type="button" aria-label="Fechar painel de cadastro">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="admin-actions panel-actions">
+        <button class="clear-data-btn" id="clearDoctorsBtn" type="button">
+          <i class="fa-solid fa-trash"></i>
+          Limpar dados salvos
+        </button>
+      </div>
+
+      <!-- FORMULÁRIO: campos preenchidos para lançar médico, consultas, valor e faltas. -->
+      <form class="doctor-form" id="doctorForm">
+        <label>
+          <span>Mês do lançamento</span>
+          <select id="doctorMonth" required>
+            <option value="Maio de 2026" selected>Maio 2026</option>
+            <option value="Abril de 2026">Abril 2026</option>
+            <option value="Março de 2026">Março 2026</option>
+            <option value="Fevereiro de 2026">Fevereiro 2026</option>
+            <option value="Janeiro de 2026">Janeiro 2026</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Nome do médico</span>
+          <input type="text" id="doctorName" placeholder="Ex: Dr. Pedro Lucas" required>
+        </label>
+
+        <label>
+          <span>Especialidade</span>
+          <select id="doctorSpecialty" required>
+            <option value="">Selecione</option>
+            <option value="Clínico Geral">Clínico Geral</option>
+            <option value="Ginecologia">Ginecologia</option>
+            <option value="Cardiologia">Cardiologia</option>
+            <option value="Ortopedia">Ortopedia</option>
+            <option value="Psicologia">Psicologia</option>
+            <option value="Nutrição">Nutrição</option>
+            <option value="Fisioterapia">Fisioterapia</option>
+            <option value="Outras">Outras</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Consultas realizadas</span>
+          <input type="number" id="doctorConsultas" placeholder="Ex: 120" min="0" required>
+        </label>
+
+        <label>
+          <span>Valor arrecadado</span>
+          <input type="number" id="doctorValor" placeholder="Ex: 15000" min="0" step="0.01" required>
+        </label>
+
+        <label>
+          <span>Faltas</span>
+          <input type="number" id="doctorFaltas" placeholder="Ex: 8" min="0" required>
+        </label>
+
+        <button type="submit" class="save-doctor-btn">
+          <i class="fa-solid fa-floppy-disk"></i>
+          Salvar médico
+        </button>
+      </form>
+
+      <div class="saved-doctors-box">
+        <div class="saved-doctors-title">
+          <h3>Médicos cadastrados</h3>
+          <small>Os dados ficam salvos automaticamente neste navegador.</small>
+        </div>
+
+        <div class="saved-doctors-list" id="savedDoctorsList"></div>
+      </div>
+  </aside>
+
+
+
+<!-- ==================================================
+     LAG CONTROLLER: CHAT DA IA SEM PET / MASCOTE
+     Bloco limpo, somente botão e janela do chat
+================================================== -->
+
+<!-- Botão flutuante para abrir o chat -->
+<button class="lag-wolf-button" id="lagWolfButton" type="button" aria-label="Abrir chat da IA">
+  <i class="fa-solid fa-comments"></i>
+</button>
+
+<!-- Balão antigo mantido escondido apenas para o JavaScript não dar erro -->
+<div class="lag-wolf-speech" id="lagWolfSpeech" style="display:none;">
+  Pode perguntar, eu cuido dos números.
+</div>
+
+<!-- Janela principal do chat -->
+<section class="lag-wolf-chat" id="lagWolfChat" aria-hidden="true">
+
+  <header class="lag-wolf-header">
+
+    <div class="lag-wolf-ai">
+
+      <div class="lag-wolf-avatar">
+        <i class="fa-solid fa-wand-sparkles"></i>
+      </div>
+
+      <div class="lag-wolf-title">
+        <h2>LAG AI</h2>
+        <p>Assistente inteligente online</p>
+      </div>
+
+    </div>
+
+    <button class="lag-wolf-close" id="lagWolfClose" type="button" aria-label="Fechar chat da IA">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+
+  </header>
+
+  <div class="lag-wolf-messages" id="lagWolfMessages">
+    <div class="lag-wolf-message bot">
+      Oi! Eu sou a <b>LAG AI</b>. Posso resumir o dashboard, mostrar ranking, analisar faltas, ver arrecadação e abrir o cadastro de médicos.
+    </div>
+  </div>
+
+  <div class="lag-wolf-actions">
+    <button type="button" data-lag-wolf-action="resumo">
+      <i class="fa-solid fa-chart-pie"></i>
+      Resumo
+    </button>
+
+    <button type="button" data-lag-wolf-action="ranking">
+      <i class="fa-solid fa-trophy"></i>
+      Ranking
+    </button>
+
+    <button type="button" data-lag-wolf-action="cadastro">
+      <i class="fa-solid fa-user-plus"></i>
+      Cadastro
+    </button>
+  </div>
+
+  <form class="lag-wolf-form" id="lagWolfForm">
+    <input
+      type="text"
+      id="lagWolfInput"
+      placeholder="Digite sua pergunta..."
+      autocomplete="off"
+    >
+
+    <button type="submit" aria-label="Enviar mensagem">
+      <i class="fa-solid fa-paper-plane"></i>
+    </button>
+  </form>
+
+</section>
+<!-- PAINEL LATERAL DE NOTÍCIAS DA CLÍNICA -->
+<div class="clinic-news-overlay" id="clinicNewsOverlay"></div>
+
+<aside class="clinic-news-drawer" id="clinicNewsDrawer" aria-hidden="true">
+
+  <header class="clinic-news-drawer-header">
+    <div class="clinic-news-title-area">
+      <div class="clinic-news-main-icon">
+        <i class="fa-regular fa-newspaper"></i>
+      </div>
+
+      <div>
+        <span>Comunicação interna</span>
+        <h2>Notícias da Clínica</h2>
+        <p>Avisos, eventos, campanhas e comunicados importantes.</p>
+      </div>
+    </div>
+
+    <button class="clinic-news-close" id="clinicNewsClose" type="button" aria-label="Fechar notícias">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </header>
+
+  <div class="clinic-news-drawer-body">
+
+    <div class="clinic-news-actions">
+      <button class="clinic-news-add-btn" id="clinicNewsOpenForm" type="button">
+        <i class="fa-solid fa-plus"></i>
+        Nova notícia
+      </button>
+    </div>
+
+    <div class="clinic-news-tabs">
+      <button class="active" type="button" data-clinic-news-filter="todas">Todas</button>
+      <button type="button" data-clinic-news-filter="Aviso">Avisos</button>
+      <button type="button" data-clinic-news-filter="Evento">Eventos</button>
+      <button type="button" data-clinic-news-filter="Treinamento">Treinamentos</button>
+      <button type="button" data-clinic-news-filter="Saúde">Saúde</button>
+    </div>
+
+    <form class="clinic-news-form" id="clinicNewsForm">
+      <div class="clinic-news-form-grid">
+        <label>
+          <span>Título</span>
+          <input type="text" id="clinicNewsTitle" placeholder="Ex: Nova campanha da clínica">
+        </label>
+
+        <label>
+          <span>Categoria</span>
+          <select id="clinicNewsCategory">
+            <option value="Aviso">Aviso</option>
+            <option value="Evento">Evento</option>
+            <option value="Treinamento">Treinamento</option>
+            <option value="Saúde">Saúde</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Data</span>
+          <input type="date" id="clinicNewsDate">
+        </label>
+
+        <label>
+          <span>Destaque</span>
+          <select id="clinicNewsPinned">
+            <option value="false">Normal</option>
+            <option value="true">Fixar no topo</option>
+          </select>
+        </label>
+      </div>
+
+      <label>
+        <span>Descrição</span>
+        <textarea id="clinicNewsDescription" placeholder="Digite a notícia da clínica..."></textarea>
+      </label>
+
+      <div class="clinic-news-form-actions">
+        <button class="clinic-news-cancel-btn" id="clinicNewsCancelForm" type="button">
+          Cancelar
+        </button>
+
+        <button class="clinic-news-save-btn" type="submit">
+          <i class="fa-solid fa-paper-plane"></i>
+          Publicar
+        </button>
+      </div>
+    </form>
+
+    <div class="clinic-news-list" id="clinicNewsList"></div>
+
+  </div>
+</aside>
+  <script src="dados-medicos.js"></script>
+  <script src="assets/lag-ia-mascote.js"></script>
+</body>
+</html>  
